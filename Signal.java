@@ -1,53 +1,63 @@
 import java.util.*;
 
-public enum Signal { // declares the signal objects
+public enum Signal{ 
+//------------------------------------------------------------------------------------------------------------------------------
+
+   // declaring the signal objects
 	HI, LO, X;
 
-	public Signal invert() { // converts to opposite signal
-		if (this == Signal.HI) {
+   // returning inversion of "this" signal
+	public Signal invert(){
+		
+      if (this == Signal.HI){
 			return Signal.LO; // returns low signal
-		} else if (this == Signal.LO) {
+		} 
+      else if (this == Signal.LO){
 			return Signal.HI; // returns high signal
-		} else {
-			return this; // returns the current signal
+		} 
+      else{
+			return Signal.X; // returns the current signal
 		}
 	}
 
-	public static Signal fromString(char c) throws RuntimeException{ // converts string representation to signal
-		switch (c) {
+   // converts string representation to signal
+	public static Signal fromString(char c) throws RuntimeException{ 
 
-		case 'H': // it's a high signal
-			if (c == '1') {
-				return HI;
-			}
-
-		case 'L': // it's a low signal
-			if (c == '0') {
-				return LO;
-			}
-
-		case 'X': // could be a high or low signal
-			if ((c == 'X') || (c == 'x')) {
-				return X;
-			}
-
-		default:
-			return throw ExceptionLogicMalformedSignal();
-		}
+	   if (c == '1'){ // it's a high signal
+	      return HI;
+	   }
+      else if (c == '0'){ // it's a low signal
+         return LO;
+      }
+      else if (c == 'X'){ // could be a high or low signal
+         return X;
+      }
+      else if (c == 'x'){
+         return X;
+      }   
+      else{
+    	   throw new ExceptionLogicMalformedSignal(c, "<error>");
+      }
+	}
+   
+   // returning list of signal values found from string input
+	public static List<Signal> fromString(String inps){
+   
+		List<Signal> mySignals = new ArrayList<Signal>(); // creating list and using the class as it's type
+		
+      String noSpaces = inps.replaceAll("\\s", "");
+      
+		for (char c : noSpaces.toCharArray()){
+		   mySignals.add(Signal.fromString(c));
+	   }
+         
+   return mySignals;
 	}
 
-	public static List<Signal> fromString(String inps) {
-		List<Signal> mySignals = new ArrayList<Signal>();
-		String noSpaces = inps.replaceAll("\\s", "");
-		for (char c : noSpaces.toCharArray()) {
-			mySignals.add(Signal.fromString(c));
-		}
-		return mySignals;
-
-	}
-
+   // overriding method under this one
 	@Override
 	public String toString() {
+   
 		if (this == HI) {
 			return "1";
 		} else if (this == LO) {
@@ -57,11 +67,17 @@ public enum Signal { // declares the signal objects
 		}
 	}
 
+   // converting each singal in mySignals List to a String
 	public static String toString(List<Signal> sig) {
-		String list = "";
+		
+      String list = "";
+      
 		for (Signal s : sig) {
 			list += s.toString();
 		}
-		return list;
+      
+   return list;
 	}
+   
+//------------------------------------------------------------------------------------------------------------------------------
 }
