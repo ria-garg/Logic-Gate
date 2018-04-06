@@ -20,6 +20,13 @@ public class GateAnd extends Gate {
 				numX++;
 			}
 		}
+		if (numHI == this.getInputs().size()) {
+			this.getOutput().setSignal(Signal.HI);
+		} else if ((numLO == this.getInputs().size() && numX > 0) || (numX == this.getInputs().size())) {
+			this.getOutput().setSignal(Signal.X);
+		} else {
+			this.getOutput().setSignal(Signal.LO);
+		}
 		if ((numX > 0) || (numLO > 0)) {
 			return false;
 		} else {
@@ -38,4 +45,3 @@ public class GateAnd extends Gate {
 	}
 
 }
-
