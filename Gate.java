@@ -19,11 +19,11 @@ public abstract class Gate implements Logic {
 
 	// input a list of signals and feed the signals
 	@Override
-	public void feed(List<Signal> inSignals) {
-		if (inSignals.size() == inputs.size()) {
+	public void feed(List<Signal> inSigs) {
+		if (inSigs.size() == inputs.size()) {
 			for (int i = 0; i < inputs.size(); i++) {
 				Wire w = inputs.get(i);
-				w.setSignal(inSignals.get(i));
+				w.setSignal(inSigs.get(i));
 				inputs.set(i, w);
 			}
 		} else {
@@ -34,8 +34,8 @@ public abstract class Gate implements Logic {
 	}
 
 	@Override
-	public void feed(String inSignals) {
-		List<Signal> iSig = Signal.fromString(inSignals);
+	public void feed(String signalsStr) {
+		List<Signal> iSig = Signal.fromString(signalsStr);
 		feed(iSig);
 	}
 
@@ -50,18 +50,58 @@ public abstract class Gate implements Logic {
 	}
 
 	@Override
-	public List<Signal> inspect(List<Signal> inputs) {
-		feed(inputs);
+	public List<Signal> inspect(List<Signal> inSigs) {
+		feed(inSigs);
 		propagate();
 		return read();
 	}
 
 	@Override
-	public String inspect(String input) {
-		feed(input);
+	public String inspect(String inStr) { // looks at the
+		feed(inStr);
 		propagate();
 		return read().toString();
 	}
 
-}
+	@Override
+	public String toString() {
+		return "\"" + name + "( [" + inputs + "] | " + output + " )";
+	}
 
+	@Override
+	public boolean equals(Object other) { // compares two gate objects to each other
+		boolean path = false;
+		if (other instanceof Gate) {
+			Gate g = (Gate) other;
+			if (g.getName().equals(name) && g.getOutput().equals(output) && g.getInputs().equals(inputs)) {
+				path = true;
+			}
+		}
+		return path;
+	}
+
+	// getter and setter for the variables
+	public List<Wire> getInputs() {
+		return inputs;
+	}
+
+	public Wire getOutput() {
+		return output;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setInputs(List<Wire> inputs) {
+		this.inputs = inputs;
+	}
+
+	public void setOutput(Wire output) {
+		this.output = output;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+}
