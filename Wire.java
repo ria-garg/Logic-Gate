@@ -1,40 +1,53 @@
-public class Wire {
-	private Signal signal;
+public class Wire{
+//-------------------------------------------------------------------------------------------------------------------------------
+	
+   // fields
+   private Signal signal;
 	private String name;
 
-	public Wire(String name) {
+   // constructor
+   public Wire(String name){
 		this.name = name; // sets name
-		signal = Signal.X; // sets value of signal to an unkown value
+		this.signal = Signal.X; // sets value of signal to an unkown value
 	}
 
 	@Override
-	public String toString() {
-		return name + ":" + signal.toString();
+	public String toString(){
+		return (name + ":" + signal.toString());
 	}
 
+   // equality check
 	@Override
-	public boolean equals(Object other) {
-		if (!(other instanceof Wire)) {
-			return false;
-		}
-		Wire oldWire = (Wire) other;
-		return oldWire.getSignal() == signal && oldWire.getName().equals(name);
-	}
-
-	public Signal getSignal() {
+   public boolean equals(Object other){
+		
+   boolean result = false; // just to initalize, this value may change later as it goes thru the if else  
+      
+      if (this == other){
+         result = true;
+      }
+      else if (other instanceof Wire){
+         Wire o = (Wire)other;
+         result = (o.getSignal() == signal && o.getName().equals(name));
+      }
+      
+   return result;   
+   }
+   
+   // getters
+	public Signal getSignal(){
 		return signal;
 	}
-
-	public String getName() {
+	public String getName(){
 		return name;
 	}
 
-	public void setSignal(Signal signal) {
+   // setters
+	public void setSignal(Signal signal){
 		this.signal = signal;
 	}
-
-	public void setName(String name) {
+	public void setName(String name){
 		this.name = name;
 	}
-
+   
+//-------------------------------------------------------------------------------------------------------------------------------
 }
