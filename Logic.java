@@ -1,9 +1,12 @@
 import java.util.*;
 
-public interface Logic {
-	public abstract void feed(List<Signal> inSignals); // gives signals to the input wires
+public interface Logic{
+//------------------------------------------------------------------------------------------------------------------------------
+   // all methods are just signatures, as they are abstract, and will be implemented later in other classes
+  
+   public abstract void feed(List<Signal> inSignals); // gives signals to the input wires
 
-	public abstract void feed(String inSignals); // accepts a string representation of signals
+   public abstract void feed(String inSignals); // accepts a string representation of signals
 
 	public abstract boolean propagate(); // performs the logic and generates outputs
 
@@ -12,4 +15,6 @@ public interface Logic {
 	public abstract List<Signal> inspect(List<Signal> inputs); // combination of feeding, propagating, and reading
 
 	public abstract String inspect(String input); // combination of feeding, propagating, and reading
+     
+//------------------------------------------------------------------------------------------------------------------------------
 }
