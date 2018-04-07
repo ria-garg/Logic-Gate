@@ -41,10 +41,10 @@ public class GateNor extends Gate{
       
       // logic for the specfic gate
       if (countHI > 0){
-         check = Signal.HI;
+         x = Signal.HI;
       }
       else if (countHI == 0 && countX > 0){
-         check = Signal.X;
+         x = Signal.X;
       }
          
       boolean a = true; // intializing value for the returned value, will change varying depending on the statement it goes thru
