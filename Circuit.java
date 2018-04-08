@@ -333,22 +333,22 @@ public class Circuit implements Logic{
   
    // getters
    public List<Logic> getComponents(){
-     return components;
+     return this.components;
    }
    public List<Contact> getInputs(){
-     return inputs;
+     return this.inputs;
    }
    public List<Contact> getOutputs(){
-     return outputs;
+     return this.outputs;
    }
    public List<Wire> getInnerWires(){
-     return innerWires;
+     return this.innerWires;
    }
    public List<String> getImportables(){
-     return importables;
+     return this.importables;
    }
    public String getName(){
-     return name;
+     return this.name;
    }
   
    // setters
