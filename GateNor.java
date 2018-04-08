@@ -1,64 +1,59 @@
 import java.util.*;
 
 public class GateNor extends Gate{
-//-------------------------------------------------------------------------------------------------------------------------------
-   
-   // constuctor
+//--------------------------------------------------------------------------------------------------------------------------
+ 
+   // constructor 
    public GateNor(List<Wire> ins, Wire output){
-     super("Nor",ins,output); // gate constuctor
+      super("Nor",ins,output);
+   }
+   
+   // equality check 
+   @Override public boolean equals(Object other){
+      boolean check = false;
+      if (other instanceof GateOr){
+         GateOr g = (GateOr) other;
+         check = super.equals(g);
+      }
+   return check;
    }
   
-   // equality check
-   @Override public boolean equals(Object other){
-   
-     if (other instanceof GateNor){
-       GateNor norGate = (GateNor) other;
-       return (super.equals(norGate));
-     }
-     else{
-        return false;
-     }
-   }
-   
-   // LO is any inputs are high, otherwise HI
-   // propagate method, seeing how it respinds to different input signals
+   // LO if any inputs are high, HI otherwise
+   // true if signal change, false otherwise
    @Override public boolean propagate(){
      
-      Signal x = Signal.LO;
-     
+      // inializing values to use throughout
+      Signal sigVal = Signal.LO;
+      
+      // acdding up total values of signals
       int countHI = 0; 
       int countX = 0;
-     
-      // adding the number of times the HI or LO is signaled, total number at the end of loop
+      
       for (Wire i : getInputs()){
-        if (i.getSignal() == Signal.HI){
-          countHI++;
-        }
-        else if (i.getSignal() == Signal.X){
-          countX++;
-        }
+         if (i.getSignal() == Signal.HI){
+            countHI++;
+         }
+         else if (i.getSignal() == Signal.X){
+            countX++;
+         }
       }
       
-      // logic for the specfic gate
+      // logic for signal gate
       if (countHI > 0){
-         x = Signal.HI;
+         sigVal = Signal.HI;
       }
       else if (countHI == 0 && countX > 0){
-         x = Signal.X;
+         sigVal = Signal.X;
+      }
+      
+      // determining if signal changed or not
+      if (getOutput().getSignal().equals(sigVal)){
+         getOutput().setSignal(sigVal);
+         return false;
       }
          
-      boolean a = true; // intializing value for the returned value, will change varying depending on the statement it goes thru
-      
-      if (getOutput().getSignal() == (x)){ // comparing signal values
-         a = false;
-         getOutput().setSignal(x); // setting the value of check as this signal
-      } 
-      else if (getOutput().getSignal() != (x)){ // comparing signal values
-         a= true;
-      }
-          
-   return a;
+   return true;
    }
   
-//-------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------
 }
