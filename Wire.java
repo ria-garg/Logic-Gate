@@ -6,7 +6,7 @@ public class Wire{
 	private String name;
 
    // constructor
-   public Wire(String name){
+	public Wire(String name){
 		this.name = name; // sets name
 		this.signal = Signal.X; // sets value of signal to an unkown value
 	}
@@ -18,7 +18,7 @@ public class Wire{
 
    // equality check
 	@Override
-   public boolean equals(Object other){
+	public boolean equals(Object other){
 		
    boolean result = false; // just to initalize, this value may change later as it goes thru the if else  
       
@@ -31,7 +31,7 @@ public class Wire{
       }
       
    return result;   
-   }
+	}
    
    // getters
 	public Signal getSignal(){
