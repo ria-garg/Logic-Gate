@@ -1,47 +1,63 @@
-import java.util.List;
+import java.util.*;
 
-public class GateAnd extends Gate {
+public class GateAnd extends Gate{
+//---------------------------------------------------------------------------------------------------------------------------
 
-	public GateAnd(List<Wire> ins, Wire out) {
-		super("AND", ins, out);
-	}
-
-	@Override
-	public boolean propagate() {
-		int numX = 0;
-		int numHI = 0;
-		int numLO = 0;
-		for (Wire w : getInputs()) {
-			if (w.getSignal() == Signal.HI) {
-				numHI++;
-			} else if (w.getSignal() == Signal.LO) {
-				numLO++;
-			} else if (w.getSignal() == Signal.X) {
-				numX++;
-			}
-		}
-		if (numHI == this.getInputs().size()) {
-			this.getOutput().setSignal(Signal.HI);
-		} else if ((numLO == this.getInputs().size() && numX > 0) || (numX == this.getInputs().size())) {
-			this.getOutput().setSignal(Signal.X);
-		} else {
-			this.getOutput().setSignal(Signal.LO);
-		}
-		if ((numX > 0) || (numLO > 0)) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	@Override
-	public boolean equals(Object other) {
-		boolean path = false;
-		if (other instanceof GateAnd) {
-			GateAnd g = (GateAnd) other;
-			path = super.equals(g);
-		}
-		return path;
-	}
-
+   // constructor
+   public GateAnd(List<Wire> ins, Wire output){
+      super("And",ins,output);
+   }
+   
+   // equality check 
+   @Override public boolean equals(Object other){
+      boolean check = false;
+      if (other instanceof GateAnd){
+         GateAnd g = (GateAnd) other;
+         check = super.equals(g);
+      }
+   return check;
+   }
+  
+   // HI if all inputs are high, LO otherwise
+   // true if signal change, false otherwise
+   @Override public boolean propagate(){
+     
+      // inializing values to use throughout
+      Signal sigVal = Signal.X;
+      
+      // acdding up total values of signals
+      int countLO = 0; 
+      int countHI = 0; 
+      int countX = 0;
+      
+      for (Wire i : getInputs()){
+         if (i.getSignal() == Signal.LO){
+            countLO++;
+         }
+         else if (i.getSignal() == Signal.HI){
+           countHI++;
+         }
+         else if (i.getSignal() == Signal.X){
+           countX++;
+         }
+      }
+      
+      // logic for signal gate
+      if (countLO > 0){
+         sigVal = Signal.LO;
+      }
+      else if (countX == 0 && countHI > 0){
+         sigVal = Signal.HI;
+      }
+      
+      // determining if signal changed or not
+      if (getOutput().getSignal().equals(sigVal)){
+         getOutput().setSignal(sigVal);
+         return false;
+      }
+         
+   return true;
+   }
+    
+//---------------------------------------------------------------------------------------------------------------------------
 }
