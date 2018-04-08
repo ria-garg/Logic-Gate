@@ -1,64 +1,59 @@
 import java.util.*;
 
 public class GateXor extends Gate{
-//-------------------------------------------------------------------------------------------------------------------------------
-   
-   // constuctor
+//---------------------------------------------------------------------------------------------------------------------------
+
+   // constructor
    public GateXor(List<Wire> ins, Wire output){
-     super("Xor",ins,output); // gate constuctor
+      super("Xor",ins,output);
+   }
+   
+   // equality check 
+   @Override public boolean equals(Object other){
+      boolean check = false;
+      if (other instanceof GateXor){
+         GateXor g = (GateXor) other;
+         check = super.equals(g);
+      }
+   return check;
    }
   
-   // equality check
-   @Override public boolean equals(Object other){
-   
-     if (other instanceof GateXor){
-       GateXor orGate = (GateXor) other;
-       return (super.equals(orGate));
-     }
-     else{
-        return false;
-     }
-   }
-   
-   // HI if exactly one input is high, otherwise it is LO
-   // propagate method, seeing how it respinds to different input signals
+   // HI if exactly one input is high, LO otherwise
+   // true if signal change, false otherwise
    @Override public boolean propagate(){
      
-      Signal x = Signal.LO;
-     
+      // inializing values to use throughout
+      Signal sigVal = Signal.LO;
+      
+      // acdding up total values of signals
       int countHI = 0; 
       int countX = 0;
-     
-      // adding the number of times the HI or LO is signaled, total number at the end of loop
+      
       for (Wire i : getInputs()){
-        if (i.getSignal() == Signal.HI){
-          countHI++;
-        }
-        else if (i.getSignal() == Signal.X){
-          countX++;
-        }
+         if (i.getSignal() == Signal.HI){
+            countHI++;
+         }
+         else if (i.getSignal() == Signal.X){
+            countX++;
+         }
       }
       
-      // logic for the specfic gate
-      if (countHI == 1 && countX == 0){
-         x = Signal.HI;
+      // logic for signal gate
+      if (countX > 0){
+         sigVal = Signal.X;
       }
-      else if (countX > 0){
-         x = Signal.X;
+      else if (countHI == 1 && countX == 0){
+         sigVal = Signal.HI;
       }
-     
-      boolean a = true; // intializing value for the returned value, will change varying depending on the statement it goes thru
       
-      if (getOutput().getSignal() == (x)){ // comparing signal values
-         a = false;
-         getOutput().setSignal(x); // setting the value of check as this signal
-      } 
-      else if (getOutput().getSignal() != (x)){ // comparing signal values
-         a= true;
+      // determining if signal changed or not
+      if (getOutput().getSignal().equals(sigVal)){
+         getOutput().setSignal(sigVal);
+         return false;
       }
-          
-   return a;
+         
+   return true;
    }
-  
-//-------------------------------------------------------------------------------------------------------------------------------
+    
+//---------------------------------------------------------------------------------------------------------------------------
 }
