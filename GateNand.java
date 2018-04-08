@@ -1,53 +1,63 @@
-public class Wire{
-//-------------------------------------------------------------------------------------------------------------------------------
-	
-   // fields
-   private Signal signal;
-	private String name;
+import java.util.*;
+
+public class GateNand extends Gate{
+//---------------------------------------------------------------------------------------------------------------------------
 
    // constructor
-	public Wire(String name){
-		this.name = name; // sets name
-		this.signal = Signal.X; // sets value of signal to an unkown value
-	}
-
-	@Override
-	public String toString(){
-		return (name + ":" + signal.toString());
-	}
-
-   // equality check
-	@Override
-	public boolean equals(Object other){
-		
-   boolean result = false; // just to initalize, this value may change later as it goes thru the if else  
-      
-      if (this == other){
-         result = true;
-      }
-      else if (other instanceof Wire){
-         Wire o = (Wire)other;
-         result = (o.getSignal() == signal && o.getName().equals(name));
-      }
-      
-   return result;   
-	}
+   public GateNand(List<Wire> ins, Wire output){
+      super("Nand",ins,output);
+   }
    
-   // getters
-	public Signal getSignal(){
-		return signal;
-	}
-	public String getName(){
-		return name;
-	}
-
-   // setters
-	public void setSignal(Signal signal){
-		this.signal = signal;
-	}
-	public void setName(String name){
-		this.name = name;
-	}
-   
-//-------------------------------------------------------------------------------------------------------------------------------
+   // equality check 
+   @Override public boolean equals(Object other){
+      boolean check = false;
+      if (other instanceof GateNand){
+         GateNand g = (GateNand) other;
+         check = super.equals(g);
+      }
+   return check;
+   }
+  
+   // LO if all inputs are high, HI otherwise
+   // true if signal change, false otherwise
+   @Override public boolean propagate(){
+     
+      // inializing values to use throughout
+      Signal sigVal = Signal.X;
+      
+      // acdding up total values of signals
+      int countHI = 0; 
+      int countX = 0;
+      int countLO = 0;
+      
+      for (Wire i : getInputs()){
+         if (i.getSignal() == Signal.HI){
+            countHI++;
+         }
+         else if (i.getSignal() == Signal.X){
+            countX++;
+         }
+         else if (i.getSignal() == Signal.X){
+            countLO++;
+         }
+      }
+      
+      // logic for signal gate
+      if (countLO > 0){
+         sigVal = Signal.LO;
+      }
+      else if (countX == 0 && countHI > 0){
+         sigVal = Signal.HI;
+      }
+      
+      // determining if signal changed or not
+      if (getOutput().getSignal().equals(sigVal)){
+         getOutput().setSignal(sigVal);
+         return false;
+      }
+         
+   return true;
+   }
+    
+//---------------------------------------------------------------------------------------------------------------------------
 }
