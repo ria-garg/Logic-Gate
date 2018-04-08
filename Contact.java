@@ -1,6 +1,6 @@
 import java.util.*;
 
-public abstract class Contact implements Logic{
+public /*abstract*/ class Contact /*implements Logic*/{
 //--------------------------------------------------------------------------------------------------------------------------------
   
    // fields
@@ -61,6 +61,7 @@ public abstract class Contact implements Logic{
       this.inbound = inbound;
    }
    
+   /*
    // abstract methods
    @Override public abstract void feed (List<Signal> inputSignals);
    @Override public abstract void feed (String inputSignals);
@@ -68,6 +69,7 @@ public abstract class Contact implements Logic{
    @Override public abstract List<Signal> inspect(List<Signal> inSigs);
    @Override public abstract String inspect(String str);
    @Override public abstract boolean propagate();
+   */
     
 //--------------------------------------------------------------------------------------------------------------------------------
 }
