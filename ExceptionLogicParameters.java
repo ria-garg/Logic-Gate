@@ -1,4 +1,4 @@
-public class ExceptionLogicParameters extends RuntimeException{
+public class ExceptionLogicParameters{
 //---------------------------------------------------------------------------------------------------------------------------
   
    // fields
