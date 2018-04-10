@@ -1,4 +1,4 @@
-public class ExceptionLogicMalformedSignal extends RuntimeException{
+public class ExceptionLogicMalformedSignal{
 //--------------------------------------------------------------------------------------------------------------------------
  
    // fields
