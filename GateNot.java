@@ -12,13 +12,13 @@ public class GateNot extends Gate {
 		Wire w = (Wire) getInputs().get(0);
 		Signal s = w.getSignal();
 		s = s.invert();
-		if(getOutput().getSignal().equals(s)) {
+		if (getOutput().getSignal().equals(s)) {
 			gate = false;
 		}
 		getOutput().setSignal(s);
 		return gate;
 	}
-	
+
 	@Override
 	public boolean equals(Object other) {
 		boolean path = false;
